@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Board from './Board';
-import { handleKeyDown } from './support';
+import {
+    transform,
+    generateEmptyBoard,
+    generateRandomPositionOnBoard,
+} from './support';
 
 const Header = styled.header`
     display: block;
@@ -40,7 +44,7 @@ const App = () => {
     useEffect(() => newGame(), []);
 
     useEffect(() => {
-        const listner = event => onKeyDown(event);
+        const listner = event => handleKeyDown(event);
         window.addEventListener('keydown', listner);
         return () => window.removeEventListener('keydown', listner);
     });
@@ -50,28 +54,24 @@ const App = () => {
     const [board, setBoard] = useState([]);
     
     const newGame = () => {
-        const newBoard = [
-            [4, 4, 4, 4],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ];
+        const newBoard = generateEmptyBoard();
 
-        // generateRandomPositionOnBoard(newBoard);
-        // generateRandomPositionOnBoard(newBoard);
+        generateRandomPositionOnBoard(newBoard);
+        generateRandomPositionOnBoard(newBoard);
 
         setBoard(newBoard);
     };
 
-    const onKeyDown = event => {
-        const [newBoard, newTransforms] = handleKeyDown(event.keyCode, board);
+    const handleKeyDown = event => {
+        const [newBoard, newTransforms] = transform(event.keyCode, board);
 
         if (newBoard) {
             setTransforms(newTransforms);
             setTimeout(() => {
+                generateRandomPositionOnBoard(newBoard);
                 setBoard(newBoard);
                 setTransforms(null);
-            }, 200);
+            }, 100);
         }
     };
     

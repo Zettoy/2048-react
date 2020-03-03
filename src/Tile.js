@@ -38,17 +38,17 @@ const Tile = styled.div`
     ${({transformation}) => transformation && animationMixin};
 `;
 
-export default ({value, position: {x, y}, transformation}) => {
+export default ({value, position: {row, col}, transformation}) => {
     const style = value === 0 ? {
         width: 0,
         height: 0,
-        top: getPosTop(y) + 50,
-        left: getPosLeft(x) + 50,
+        top: getPosTop(row) + 50,
+        left: getPosLeft(col) + 50,
     } : {
         width: '100px',
         height: '100px',
-        top: getPosTop(y),
-        left: getPosLeft(x),
+        top: getPosTop(row),
+        left: getPosLeft(col),
         backgroundColor: getNumberBackgroundColor(value),
         color: getNumberColor(value),
     };
