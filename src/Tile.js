@@ -5,50 +5,35 @@ import {
     getNumberBackgroundColor,
     getNumberColor
 } from './support';
-import styled, { keyframes, css } from 'styled-components';
-
-const animation = ({transformation}) => keyframes`
-    from {
-        transform: translate(0, 0);
-    }
-    
-    to {
-        transform: translate(
-            ${transformation.x * 120}px,
-            ${transformation.y * 120}px
-        );
-    }
-`;
-
-const animationMixin = css`
-    animation: ${animation};
-    animation-duration: 200ms;
-`;
+import styled from 'styled-components';
 
 const Tile = styled.div`
     border-radius: 6px;
     
     font-weight: bold;
-    font-size: 60px;
     line-height: 100px;
     text-align: center;
 
     position: absolute;
 
-    ${({transformation}) => transformation && animationMixin};
+    ${({transformation}) => transformation && `transition: transform 200ms`};
 `;
 
 export default ({value, position: {row, col}, transformation}) => {
-    const style = value === 0 ? {
-        width: 0,
-        height: 0,
-        top: getPosTop(row) + 50,
-        left: getPosLeft(col) + 50,
-    } : {
-        width: '100px',
-        height: '100px',
-        top: getPosTop(row),
+    const x = transformation?.x * 120 || 0;
+    const y = transformation?.y * 120 || 0;
+
+    let fontSize = '60px';
+    if (value > 100) fontSize = '42px';
+    if (value > 1000) fontSize = '36px';
+
+    const style = {
+        width: value === 0 ? 0 : '100px',
+        height: value === 0 ? 0 : '100px',
+        fontSize: fontSize,
         left: getPosLeft(col),
+        top: getPosTop(row),
+        transform: `translate(${x}px, ${y}px)`,
         backgroundColor: getNumberBackgroundColor(value),
         color: getNumberColor(value),
     };

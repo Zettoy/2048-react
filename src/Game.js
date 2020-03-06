@@ -52,7 +52,7 @@ const App = () => {
     const [score, setScore] = useState(0);
     const [transforms, setTransforms] = useState();
     const [board, setBoard] = useState([]);
-    
+
     const newGame = () => {
         const newBoard = generateEmptyBoard();
 
@@ -63,15 +63,16 @@ const App = () => {
     };
 
     const handleKeyDown = event => {
-        const [newBoard, newTransforms] = transform(event.keyCode, board);
+        const [newBoard, newTransforms, newScore] = transform(event.keyCode, board) || [];
 
         if (newBoard) {
             setTransforms(newTransforms);
             setTimeout(() => {
                 generateRandomPositionOnBoard(newBoard);
                 setBoard(newBoard);
+                setScore(score + newScore);
                 setTransforms(null);
-            }, 100);
+            }, 200);
         }
     };
     

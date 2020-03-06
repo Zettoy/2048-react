@@ -116,6 +116,7 @@ export const moveLeft = (board) => {
 
     const newBoard = cloneDeep(board);
     const transforms = {};
+    let score = 0;
 
     for (let row = 0; row < SIZE; row ++) {
         const merged = [];
@@ -138,6 +139,8 @@ export const moveLeft = (board) => {
                                 
                         newBoard[row][i] += newBoard[row][col];
                         newBoard[row][col] = 0;
+                        score += newBoard[row][i];
+
                         transforms[`${row}${col}`] = {x: i - col, y: 0};
 
                         merged.push(i);
@@ -149,7 +152,7 @@ export const moveLeft = (board) => {
         }
     }
     
-    return [newBoard, transforms];
+    return [newBoard, transforms, score];
 };
 
 export const canMoveRight = board => {
@@ -170,6 +173,7 @@ export const moveRight = (board) => {
 
     const newBoard = cloneDeep(board);
     const transforms = {};
+    let score = 0;
 
     for (let row = 0; row < SIZE; row ++) {
         const merged = [];
@@ -182,6 +186,8 @@ export const moveRight = (board) => {
 
                         newBoard[row][i] = newBoard[row][col];
                         newBoard[row][col] = 0;
+                        score += newBoard[row][i];
+
                         transforms[`${row}${col}`] = {x: i - col, y: 0};
 
                         break;
@@ -203,7 +209,7 @@ export const moveRight = (board) => {
         }
     }
     
-    return [newBoard, transforms];
+    return [newBoard, transforms, score];
 };
 
 export const canMoveUp = board => {
@@ -224,6 +230,7 @@ export const moveUp = (board) => {
 
     const newBoard = cloneDeep(board);
     const transforms = {};
+    let score = 0;
 
     for (let col = 0; col < SIZE; col ++) {
         const merged = [];
@@ -246,6 +253,8 @@ export const moveUp = (board) => {
                                 
                         newBoard[i][col] += newBoard[row][col];
                         newBoard[row][col] = 0;
+                        score += newBoard[i][col];
+
                         transforms[`${row}${col}`] = {x: 0, y: i - row};
 
                         merged.push(i);
@@ -257,7 +266,7 @@ export const moveUp = (board) => {
         }
     }
     
-    return [newBoard, transforms];
+    return [newBoard, transforms, score];
 };
 
 export const canMoveDown = board => {
@@ -278,6 +287,7 @@ export const moveDown = (board) => {
 
     const newBoard = cloneDeep(board);
     const transforms = {};
+    let score = 0;
 
     for (let col = 0; col < SIZE; col ++) {
         const merged = [];
@@ -290,6 +300,8 @@ export const moveDown = (board) => {
 
                         newBoard[i][col] = newBoard[row][col];
                         newBoard[row][col] = 0;
+                        score += newBoard[i][col];
+
                         transforms[`${row}${col}`] = {x: 0, y: i - row};
 
                         break;
@@ -311,5 +323,5 @@ export const moveDown = (board) => {
         }
     }
     
-    return [newBoard, transforms];
+    return [newBoard, transforms, score];
 };
